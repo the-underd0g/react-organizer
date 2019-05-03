@@ -4,7 +4,7 @@ import { createLogger } from "redux-logger";
 import createSagaMiddleware from 'redux-saga';
 
 const sagaMiddleware = createSagaMiddleware();
-import * as sagas from './sagas.mock';
+import * as sagas from './saga.mock';
 import * as mutations from './mutations';
 
 export const store = createStore(
@@ -30,10 +30,10 @@ export const store = createStore(
         users(users = defaultState.users){
             return users;
         },
-    })
+    }),
     applyMiddleware(createLogger(), sagaMiddleware)
 );
 
 for (let saga in sagas){
-    sagaMiddleware.run(saga)
+    sagaMiddleware.run(sagas[saga])
 }

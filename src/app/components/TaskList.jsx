@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { requestTaskCreation } from "../store/mutations";
 import { Link } from 'react-router-dom';
 
-export const TaskList = ( {tasks, name, id, createNewTask}) => (
+export const TaskList = ({tasks,comments,name,createNewTask,id})=>(
     <div>
         <h3>{name}</h3>
         <div>
@@ -13,7 +13,7 @@ export const TaskList = ( {tasks, name, id, createNewTask}) => (
                 </Link>
             ))}
         </div>
-        <button onClick={() => createNewTask(id)} Add New</button>
+        <button onClick={() => createNewTask(id)}> Add New</button>
     </div>
 );
 

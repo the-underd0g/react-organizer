@@ -8,19 +8,20 @@ import { ConnectedNavigation } from './Navigation';
 import { ConnectTaskDetail } from './TaskDetail';
 
 export const Main = () => (
-    <Router history={}>
-    <Provider store={store}>
-        <div>
-            <ConnectedNavigation />
-            {/*<ConnectedDashboard />*/}
-            <Route exact
-                   path="/dashboard"
-                   render={ () => (<ConnectedDashboard/>)}
-            />
-            <Route exact
-                   path="/task/:id"
-                   render={ ({match}) => (<ConnectTaskDetail match={match}/>)}
-            />
-        </div>
-    </Provider>
+    <Router history={history}>
+        <Provider store={store}>
+            <div>
+                <ConnectedNavigation />
+                {/*<ConnectedDashboard />*/}
+                <Route exact
+                       path="/dashboard"
+                       render={ () => (<ConnectedDashboard/>)}
+                />
+                <Route exact
+                       path="/task/:id"
+                       render={ ({match}) => (<ConnectTaskDetail match={match}/>)}
+                />
+            </div>
+        </Provider>
+    </Router>
 );
