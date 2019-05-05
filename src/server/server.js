@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { connectDb } from "./connect-db";
+import './initialize-db';
 
 let port = 9090;
 let app = express();
