@@ -1,0 +1,51 @@
+import uuid from 'uuid';
+import md5 from 'md5';
+import { connectDb } from "./connect-db";
+
+const authenticationTokens = [];
+
+async function assembleUserState(user) {
+    let db = await connectDB();
+
+    let tasks = await db.collection(`tasks`).find({ owner:userId}).toArray();
+    let groups = await db.collection(`groups`).find({ owner:userId}).toArray();
+
+    return {
+        tasks,
+        groups,
+        session: {authenticated:`AUTHENTICATED`, id:user.id}
+    }
+}
+
+export const authenticationRoute = app => {
+    app.post('/authenticate', async  (req, res) => {
+        let {username, password} = req.body;
+        let db = await connectDb();
+        let collection = db.collection(`users`);
+
+        let user = collection.findOne({name:username});
+
+        if(!user){
+            return res.status(500).send('user not found');
+        }
+
+        let hash = md5(password);
+        let passwordCorrect = hash === user.passwordHash;
+
+        if (!passwordCorrect) {
+            return res.status(500).send("Password Incorrect");
+        }
+
+        let token = uuid();
+
+        authenticationTokens.push({
+            token,
+            userId:user.id
+        });
+
+        let state = await assembleUserState();
+
+        res.send({token, state});
+
+    })
+};
